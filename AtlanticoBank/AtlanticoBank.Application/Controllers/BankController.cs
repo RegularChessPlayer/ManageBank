@@ -33,5 +33,16 @@ namespace AtlanticoBank.Application.Controllers
             return Ok(caixas);
         }
 
+        [HttpPut]
+        public async Task<ActionResult<CaixaResponse>> PutAsync(long id, [FromBody] CaixaInput caixaInput)
+        {
+            var result = await _caixaService.UpdateCaixaAsync(id, caixaInput);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result);
+        }
+
     }
 }

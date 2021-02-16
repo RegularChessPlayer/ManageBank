@@ -4,10 +4,9 @@ using System.Text;
 
 namespace AtlanticoBank.Domain.Input
 {
-    public class SaqueInput
+    public class CaixaInput
     {
         public long CaixaId { get; set; }
-        public int Valor { get; set; }
-
+        public bool Status { get; set; }
     }
 }

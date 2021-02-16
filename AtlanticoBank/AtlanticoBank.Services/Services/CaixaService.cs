@@ -35,7 +35,7 @@ namespace AtlanticoBank.Services.Services
             try
             {
 
-                var estoqueCaixas = await _estoqueCaixaRepository.ListAsync(saqueInput.caixaId);
+                var estoqueCaixas = await _estoqueCaixaRepository.ListAsync(saqueInput.CaixaId);
 
                 var total = estoqueCaixas.Sum(ec => ec.Cedula * ec.Qtd);
 
@@ -56,7 +56,7 @@ namespace AtlanticoBank.Services.Services
                 }
                 
                 await _unitOfWork.CompleteAsync();
-                var caixa = await _caixaRepository.FindByIdAsync(saqueInput.caixaId);
+                var caixa = await _caixaRepository.FindByIdAsync(saqueInput.CaixaId);
                 return new CaixaResponse(caixa);
             }
             catch (Exception ex) {
@@ -82,14 +82,14 @@ namespace AtlanticoBank.Services.Services
 
         }
 
-        public async Task<CaixaResponse> UpdateCaixaAsync(long id, Caixa caixa)
+        public async Task<CaixaResponse> UpdateCaixaAsync(long id, CaixaInput caixaInput)
         {
             var existingCaixa = await _caixaRepository.FindByIdAsync(id);
 
             if (existingCaixa == null)
                 return new CaixaResponse("Friend not found");
 
-            //existingCaixa.Name = friendInput.Name;
+            existingCaixa.Active = caixaInput.Status;
 
             try
             {

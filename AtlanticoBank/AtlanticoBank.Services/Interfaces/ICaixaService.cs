@@ -11,7 +11,7 @@ namespace AtlanticoBank.Services.Interfaces
         Task<IEnumerable<Caixa>> ListCaixaAsync();
         Task<CaixaResponse> SacarAsync(SaqueInput saqueInput);
         Task<CaixaResponse> SaveCaixaAsync(Caixa caixa);
-        Task<CaixaResponse> UpdateCaixaAsync(long id, Caixa caixa);
+        Task<CaixaResponse> UpdateCaixaAsync(long id, CaixaInput caixaInput);
         Task<CaixaResponse> DeleteCaixaAsync(long id);
 
     }
