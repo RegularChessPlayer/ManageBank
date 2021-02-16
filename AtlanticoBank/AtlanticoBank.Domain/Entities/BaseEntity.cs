@@ -1,4 +1,6 @@
 ﻿using Flunt.Notifications;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace AtlanticoBank.Domain.Entities
 {
@@ -10,5 +12,8 @@ namespace AtlanticoBank.Domain.Entities
         }
 
         public virtual TKeyType Id { get; set; }
+
+        [JsonIgnore]
+        public IReadOnlyCollection<Notification> Notifications { get; }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace AtlanticoBank.Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<DataContext>(p =>
                 p.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")
             ));
@@ -39,6 +41,7 @@ namespace AtlanticoBank.Application
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<ICaixaRepository, CaixaRepository>();
+            services.AddScoped<IEstoqueCaixaRepository, EstoqueCaixaRepository>();
             services.AddScoped<ICaixaService, CaixaService>();
 
             services.AddControllers();

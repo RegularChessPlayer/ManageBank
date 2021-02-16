@@ -1,4 +1,5 @@
 ﻿using AtlanticoBank.Domain.Entities;
+using AtlanticoBank.Domain.Input;
 using AtlanticoBank.Domain.Output;
 using AtlanticoBank.Infrastructure.Data.Repository.Interfaces;
 using AtlanticoBank.Services.Interfaces;
@@ -12,10 +13,12 @@ namespace AtlanticoBank.Services.Services
     public class CaixaService : ICaixaService
     {
         private readonly ICaixaRepository _caixaRepository;
+        private readonly IEstoqueCaixaRepository _estoqueCaixaRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CaixaService(ICaixaRepository caixaRepository, IUnitOfWork unitOfWork) {
+        public CaixaService(ICaixaRepository caixaRepository, IEstoqueCaixaRepository estoqueCaixaRepository, IUnitOfWork unitOfWork) {
             _caixaRepository = caixaRepository;
+            _estoqueCaixaRepository = estoqueCaixaRepository;
             _unitOfWork = unitOfWork;
         }
        
@@ -24,9 +27,26 @@ namespace AtlanticoBank.Services.Services
             return await _caixaRepository.ListAsync();
         }
 
-        public Task<IEnumerable<Caixa>> SacarAsync(int value)
+        public async Task<CaixaResponse> SacarAsync(SaqueInput saqueInput)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var estoqueCaixas = _estoqueCaixaRepository.ListAsync(saqueInput.caixaId);
+
+                //check qtd and values
+                
+                //update it 
+
+                var caixa = await _caixaRepository.FindByIdAsync(saqueInput.caixaId);
+                
+                await _unitOfWork.CompleteAsync();
+
+                return new CaixaResponse(caixa);
+            }
+            catch (Exception ex) {
+                return new CaixaResponse($"An error occurred on saque: {ex.Message}");     
+            }
+
         }
 
         public async Task<CaixaResponse> SaveCaixaAsync(Caixa caixa)

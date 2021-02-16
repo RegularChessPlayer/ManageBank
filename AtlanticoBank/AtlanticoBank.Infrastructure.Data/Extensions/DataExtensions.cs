@@ -20,5 +20,8 @@ namespace AtlanticoBank.Infrastructure.Data.Extensions
             }
         }
 
+
     }
+
+
 }

@@ -1,4 +1,6 @@
 ﻿using AtlanticoBank.Domain.Entities;
+using AtlanticoBank.Domain.Input;
+using AtlanticoBank.Domain.Output;
 using AtlanticoBank.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -24,6 +26,13 @@ namespace AtlanticoBank.Application.Controllers
             return Ok(caixas);
         }
 
+        [HttpPost]
+
+        public async Task<ActionResult<CaixaResponse>> SacarCaixaAsync([FromBody] SaqueInput saqueInput) {
+
+            var caixas = await _caixaService.ListCaixaAsync();
+            return Ok(caixas);
+        }
 
     }
 }

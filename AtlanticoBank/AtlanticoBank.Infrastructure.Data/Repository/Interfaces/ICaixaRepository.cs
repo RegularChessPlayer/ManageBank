@@ -8,6 +8,7 @@ namespace AtlanticoBank.Infrastructure.Data.Repository.Interfaces
 {
     public interface ICaixaRepository
     {
+ 
         Task<IEnumerable<Caixa>> ListAsync();
         Task AddAsync(Caixa caixa);
         Task<Caixa> FindByIdAsync(long id);
