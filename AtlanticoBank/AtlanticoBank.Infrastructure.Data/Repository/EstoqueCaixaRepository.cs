@@ -27,7 +27,9 @@ namespace AtlanticoBank.Infrastructure.Data.Repository
 
         public async Task<IEnumerable<EstoqueCaixa>> ListAsync(long caixaId)
         {
-            return await _context.EstoqueCaixa.Where(ec => ec.CaixaId == caixaId ).ToListAsync();
+            return await _context.EstoqueCaixa.Where(ec => ec.CaixaId == caixaId )
+                                              .OrderByDescending(ec => ec.Cedula)
+                                              .ToListAsync();
         }
 
         public void Remove(EstoqueCaixa estoqueCaixa)

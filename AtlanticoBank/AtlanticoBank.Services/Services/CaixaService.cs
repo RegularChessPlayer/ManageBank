@@ -5,6 +5,7 @@ using AtlanticoBank.Infrastructure.Data.Repository.Interfaces;
 using AtlanticoBank.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace AtlanticoBank.Services.Services
         private readonly ICaixaRepository _caixaRepository;
         private readonly IEstoqueCaixaRepository _estoqueCaixaRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly int SaqueMax = 10000;
 
         public CaixaService(ICaixaRepository caixaRepository, IEstoqueCaixaRepository estoqueCaixaRepository, IUnitOfWork unitOfWork) {
             _caixaRepository = caixaRepository;
@@ -29,18 +31,32 @@ namespace AtlanticoBank.Services.Services
 
         public async Task<CaixaResponse> SacarAsync(SaqueInput saqueInput)
         {
+
             try
             {
-                var estoqueCaixas = _estoqueCaixaRepository.ListAsync(saqueInput.caixaId);
 
-                //check qtd and values
-                
-                //update it 
+                var estoqueCaixas = await _estoqueCaixaRepository.ListAsync(saqueInput.caixaId);
 
-                var caixa = await _caixaRepository.FindByIdAsync(saqueInput.caixaId);
+                var total = estoqueCaixas.Sum(ec => ec.Cedula * ec.Qtd);
+
+                if (saqueInput.Valor > total) {
+                    return new CaixaResponse("Quantidade em dinheiro no caixa inferior ao valor do saque!");
+                }
+
+                Dictionary<int, int> cedQtd = new Dictionary<int, int>();
+
+                foreach (var ec in estoqueCaixas) {
+                    cedQtd.Add(ec.Cedula, ec.Qtd);
+                }
+
+                var dictSaque = ComputeSaque(cedQtd, saqueInput.Valor);
+
+                foreach (var ec in estoqueCaixas) {
+                    ec.Qtd -= dictSaque[ec.Cedula];
+                }
                 
                 await _unitOfWork.CompleteAsync();
-
+                var caixa = await _caixaRepository.FindByIdAsync(saqueInput.caixaId);
                 return new CaixaResponse(caixa);
             }
             catch (Exception ex) {
@@ -110,6 +126,20 @@ namespace AtlanticoBank.Services.Services
             }
 
         }
+
+        private Dictionary<int, int> ComputeSaque(Dictionary<int, int> cedQtd, int valorSaque) {
+
+            Dictionary<int, int> cedQtdResult = new Dictionary<int, int>(cedQtd);
+            
+            foreach (var entry in cedQtd)
+            {
+                cedQtdResult[entry.Key] = valorSaque / entry.Key;
+                valorSaque = valorSaque % entry.Key;
+            }
+            
+            return cedQtdResult;
+        }
+
 
     }
 }

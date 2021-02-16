@@ -27,10 +27,9 @@ namespace AtlanticoBank.Application.Controllers
         }
 
         [HttpPost]
-
         public async Task<ActionResult<CaixaResponse>> SacarCaixaAsync([FromBody] SaqueInput saqueInput) {
 
-            var caixas = await _caixaService.ListCaixaAsync();
+            var caixas = await _caixaService.SacarAsync(saqueInput);
             return Ok(caixas);
         }
 
