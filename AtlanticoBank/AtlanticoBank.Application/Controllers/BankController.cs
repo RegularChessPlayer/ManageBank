@@ -1,4 +1,5 @@
 ﻿using AtlanticoBank.Domain.Entities;
+using AtlanticoBank.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,11 +10,18 @@ namespace AtlanticoBank.Application.Controllers
     [ApiController]
     public class BankController : ControllerBase
     {
+        ICaixaService _caixaService;
+
+        public BankController(ICaixaService caixaService)
+        {
+            _caixaService = caixaService;
+        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Caixa>>> GetCaixaAsync()
         {
-            return Ok();
+            var caixas = await _caixaService.ListCaixaAsync();
+            return Ok(caixas);
         }
 
 

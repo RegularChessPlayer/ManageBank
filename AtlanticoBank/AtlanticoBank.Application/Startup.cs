@@ -1,4 +1,8 @@
 using AtlanticoBank.Infrastructure.Data.Context;
+using AtlanticoBank.Infrastructure.Data.Repository;
+using AtlanticoBank.Infrastructure.Data.Repository.Interfaces;
+using AtlanticoBank.Services.Interfaces;
+using AtlanticoBank.Services.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,6 +19,7 @@ using System.Threading.Tasks;
 
 namespace AtlanticoBank.Application
 {
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -30,6 +35,11 @@ namespace AtlanticoBank.Application
             services.AddDbContext<DataContext>(p =>
                 p.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")
             ));
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<ICaixaRepository, CaixaRepository>();
+            services.AddScoped<ICaixaService, CaixaService>();
 
             services.AddControllers();
         }

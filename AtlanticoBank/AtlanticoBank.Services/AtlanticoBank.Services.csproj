@@ -6,11 +6,15 @@
 
   <ItemGroup>
     <Folder Include="Validators\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AtlanticoBank.Domain\AtlanticoBank.Domain.csproj" />
+    <ProjectReference Include="..\AtlanticoBank.Infrastructure.Data\AtlanticoBank.Infrastructure.Data.csproj" />
   </ItemGroup>
 
 </Project>
