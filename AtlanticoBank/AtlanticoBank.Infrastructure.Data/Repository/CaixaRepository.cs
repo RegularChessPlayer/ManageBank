@@ -32,6 +32,11 @@ namespace AtlanticoBank.Infrastructure.Data.Repository
             return await _context.Caixa.Include(c => c.EstoqueCaixas).ToListAsync();
         }
 
+        public IEnumerable<Caixa> ListSync()
+        {
+            return _context.Caixa.ToList();
+        }
+
         public void Remove(Caixa caixa)
         {
             _context.Caixa.Remove(caixa);

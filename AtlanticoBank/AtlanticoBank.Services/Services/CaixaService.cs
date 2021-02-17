@@ -144,6 +144,9 @@ namespace AtlanticoBank.Services.Services
             return cedQtdResult;
         }
 
-
+        public IEnumerable<Caixa> ListCaixaSync()
+        {
+            return _caixaRepository.ListSync();
+        }
     }
 }

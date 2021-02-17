@@ -27,7 +27,10 @@ namespace AtlanticoBank.Application.Controllers
         {
             var caixas = await _caixaService.ListCaixaAsync();
 
-            var timerManager = new TimerManager( () =>  _hub.Clients.All.SendAsync("caixadata", caixas));
+            var timerManager = new TimerManager( () => {
+                 _hub.Clients.All.SendAsync("caixadata", caixas);
+               }  
+            );
             return Ok(new { Message = "Request Completed" });
         }
 

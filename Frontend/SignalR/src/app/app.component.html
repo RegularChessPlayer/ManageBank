@@ -1,0 +1,30 @@
+<div style="text-align:center">
+  <h1>
+    DASHBOARD
+  </h1>
+</div>
+
+<div *ngFor='let caixa of signalRService.data'>
+
+  <div class="card-container">
+
+    <div class="card">
+      <div class="container">
+        <h3>Caixa <b> {{ caixa.name}} </b></h3>
+        
+        <p>Status: {{caixa.active}}</p>
+
+        <ul>
+          <li *ngFor='let estoqueCaixa of caixa.estoqueCaixas'>
+            <strong>Cédula: </strong> {{estoqueCaixa.cedula}} - <strong>qtd: </strong> {{ estoqueCaixa.qtd }}
+          </li>
+        </ul>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
