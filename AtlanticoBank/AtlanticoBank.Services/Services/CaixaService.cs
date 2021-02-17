@@ -43,6 +43,10 @@ namespace AtlanticoBank.Services.Services
                     return new CaixaResponse("Quantidade em dinheiro no caixa inferior ao valor do saque!");
                 }
 
+                if (saqueInput.Valor > SaqueMax) {
+                    return new CaixaResponse($"Quantidade máxima permitida p/ saque: { SaqueMax }");
+                }
+
                 Dictionary<int, int> cedQtd = new Dictionary<int, int>();
 
                 foreach (var ec in estoqueCaixas) {

@@ -1,3 +1,4 @@
+using AtlanticoBank.Application.HubConfig;
 using AtlanticoBank.Infrastructure.Data.Context;
 using AtlanticoBank.Infrastructure.Data.Repository;
 using AtlanticoBank.Infrastructure.Data.Repository.Interfaces;
@@ -44,6 +45,18 @@ namespace AtlanticoBank.Application
             services.AddScoped<IEstoqueCaixaRepository, EstoqueCaixaRepository>();
             services.AddScoped<ICaixaService, CaixaService>();
 
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+            });
+
+            services.AddSignalR();
+
             services.AddControllers();
         }
 
@@ -59,12 +72,17 @@ namespace AtlanticoBank.Application
 
             app.UseRouting();
 
+            app.UseCors("CorsPolicy");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<BankHub>("/bankhub");
+
             });
+
         }
     }
 }
