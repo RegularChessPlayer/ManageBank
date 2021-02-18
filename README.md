@@ -16,8 +16,8 @@ Sistema para gerenciamento de caixas eletrônicos.
 
 * Run Apllication
 
-* Run npm i em ManageBank\Frontend\SignalR>
+* Run npm i em ManageBank\Frontend\SignalR
 
-* ng serve
+* Run ng serve em ManageBank\Frontend\SignalR
 
 
