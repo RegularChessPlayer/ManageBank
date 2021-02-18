@@ -1,7 +1,7 @@
 # ManageBank
 Sistema para gerenciamento de caixas eletrônicos.
 
-### Prerequisites
+### Pre-Requisites
 
 * Container postgres
 * DotnetCore
