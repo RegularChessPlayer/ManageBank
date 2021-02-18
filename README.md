@@ -3,7 +3,7 @@ Sistema para gerenciamento de caixas eletrônicos.
 
 ### Prerequisites
 
-* Container postgres()
+* Container postgres
 * DotnetCore
 * Angular Cli
 
